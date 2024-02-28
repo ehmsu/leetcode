@@ -4,12 +4,6 @@
 # Input: root = [1,2,3,4,null,5,6,null,null,7]
 # Output: 7
 
-# algorithm: 
-# if left exists, go down left 
-# else go down right 
-# if both exist, go down left then go down right 
-
-
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -18,23 +12,35 @@ class TreeNode:
         self.right = right
 
 # recursive traversal 
-class Solution:
-    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
-        self.maxCounter = -1
-        self.leftmost = 0
-        self.dfs(root, 0)
-        return(self.leftmost.val)
+# class Solution:
+#     def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+#         self.maxCounter = -1
+#         self.leftmost = 0
+#         self.dfs(root, 0)
+#         return(self.leftmost.val)
 
-    def dfs(self, current: TreeNode, depth: int):
-        if current == None: 
-            return(None)
-        elif depth > self.maxCounter:
-            self.maxCounter = depth 
-            self.leftmost = current
+#     def dfs(self, current: TreeNode, depth: int):
+#         if current == None: 
+#             return(None)
+#         elif depth > self.maxCounter:
+#             self.maxCounter = depth 
+#             self.leftmost = current
 
-        self.dfs(current.left, depth+1)
-        self.dfs(current.right, depth+1)
+#         self.dfs(current.left, depth+1)
+#         self.dfs(current.right, depth+1)
 
 # breadth-first traversal using a queue instead
+class Solution:
+    def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+        queue = [] 
+        current = root 
+        queue.append(current)
 
-              
+        while queue: 
+            current = queue.pop(0)
+            if current.right: 
+                queue.append(current.right)
+            if current.left: 
+                queue.append(current.left)
+        
+        return(current.val)
